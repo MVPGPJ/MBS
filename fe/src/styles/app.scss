@@ -1,0 +1,38 @@
+.user-menu {
+  #user {
+    max-width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow:ellipsis; 
+    padding: 0 !important;
+
+    span {
+      padding: 15px 7px 15px 8px;
+      display: inline-block;
+      height: 100%;
+    }
+  }
+}
+
+#user {
+  >.user-image{
+
+  }
+  span{
+    text-align: center;
+  }
+}
+
+#username{
+  max-width: 200px;
+  // overflow: hidden;
+  white-space: nowrap;
+  text-overflow:ellipsis; 
+}
+#Zztai{
+  p{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow:ellipsis; 
+  }
+}
