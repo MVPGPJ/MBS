@@ -9,17 +9,18 @@ module.exports = {
     entry: './src/app.js',
     //出口
     output: {
-        path: path.resolve(__dirname,'./dev'),
+        path: path.resolve(__dirname, './dev'),
         filename: 'app.js'
     },
     //服务
     devServer: {
-        contentBase: path.join(__dirname,'./dev'),
+        contentBase: path.join(__dirname, './dev'),
         compress: true,
+        host: '172.16.17.48',
         port: 8000,
         proxy: {
             '/api': {
-                target: 'http://localhost:3000'
+                target: 'http://172.16.17.48:3000'
             }
         },
     },
@@ -29,8 +30,8 @@ module.exports = {
             {
                 test: /\.(png|jpg|jpeg|gif)$/i,
                 use: {
-                    loader : 'url-loader',
-                    options : {
+                    loader: 'url-loader',
+                    options: {
                         limit: 10,//图片字节大小编译为base64--小于
                     },
                 }
@@ -45,18 +46,18 @@ module.exports = {
             },
             {
                 test: /\.(scss|css)$/i,
-                use: ['style-loader','css-loader','sass-loader'],//注意顺序，从后向前依次编译
+                use: ['style-loader', 'css-loader', 'sass-loader'],//注意顺序，从后向前依次编译
             },
         ],
     },
     //插件plugin
     plugins: [
         new HtmlWebpackPlugin({
-            filename:'index.html', //目标文件
-            template:'./index.html' //源文件路径
+            filename: 'index.html', //目标文件
+            template: './index.html' //源文件路径
         }),
         new CopyPlugin([
-            { from : './src/public' , to : './public'},
+            { from: './src/public', to: './public' },
         ]),
     ]
 

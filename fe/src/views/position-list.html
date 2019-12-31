@@ -1,73 +1,80 @@
 <div class="box">
-  <div class="box-header with-border">
-    <h3 class="box-title">
-      <button id="addbtn" class="btn btn-block btn-success"><span class="fa fa-plus-circle"></span> 添加</button>
-    </h3>
-    <div class="box-tools">
-      <div class="input-group input-group-sm" style="width: 150px;">
-        <input type="text" id="keywords" value="{{keywords}}" name="pos_search" class="form-control pull-right" placeholder="搜索">
+    <div class="box-header with-border">
+        <h3 class="box-title">
+            <button id="addbtn" class="btn btn-block btn-success"><span class="fa fa-plus-circle"></span> 添加</button>
+        </h3>
+        <div class="box-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+                <input type="text" id="keywords" value="{{keywords}}" name="pos_search" class="form-control pull-right"
+                    placeholder="搜索">
 
-        <div class="input-group-btn">
-          <button type="button" id="possearch" class="btn btn-default"><i class="fa fa-search"></i></button>
+                <div class="input-group-btn">
+                    <button type="button" id="possearch" class="btn btn-default"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <div class="box-body">
-    <table class="table table-bordered">
-      <tr>
-        <th style="width: 10px">id</th>
-        <th>手机图片</th>
-        <th>手机名称</th>
-        <th>手机介绍</th>
-        <th>CPU</th>
-        <th>像素</th>
-        <th>屏幕尺寸</th>
-        <th>用户评价条数</th>
-        <th>价格</th>
-        <th>时间</th>
-        <th style="width: 180px">操作</th>
-      </tr>
-      {{if hasResult}}
-      {{each data}}
-      <tr data-id="{{$value['_id']}}" data-total="{{total}}">
-        <td>{{page * pagesize + $index +1}}</td>
-        <td><img width="50" height="50" src="http://localhost:3000/upload/{{$value['phoneImg']}}" alt=""></td>
-        <td>{{$value['phoneName']}}</td>
-        <td>{{$value['desc']}}</td>
-        <td>{{$value['phoneCpu']}}</td>
-        <td>{{$value['phonePhoto']}}</td>
-        <td>{{$value['searchValue']}}</td>
-        <td>{{$value['price']}}</td>
-        <td>{{$value['comments_total']}}</td>
-        <td>{{$value['createTime']}}</td>
-        <td>
-          <button class="btn btn-sm btn-primary btn-update"><span class="fa fa-edit"></span>
-            修改</button>
-          <button class="btn btn-sm btn-danger btn-delete"><span class="fa fa-remove"></span> 删除</button>
-        </td>
-      </tr>
-      {{/each}}
-      {{else}}
-      <tr>
-        <td colspan="8"> 敬请期待 </td>
-      </tr>
-      {{/if}}
-    </table>
-  </div>
+    <div class="box-body">
+        <table class="table table-bordered">
+            <tr>
+                <th style="width: 10px">id</th>
+                <th>手机图片</th>
+                <th>手机名称</th>
+                <th>手机介绍</th>
+                <th>CPU</th>
+                <th>像素</th>
+                <th>屏幕尺寸</th>
+                <th>价格</th>
+                <th>用户评价条数</th>
+                <th>时间</th>
+                <th style="width: 180px">操作</th>
+            </tr>
+            {{if hasResult}}
+            {{each data}}
+            <tr data-id="{{$value['_id']}}" data-total="{{total}}">
+                <td>{{page * pagesize + $index +1}}</td>
+                <!-- <td><img width="50" height="50" src="http://localhost:3000/upload/{{$value['phoneImg']}}" alt=""></td> -->
+                <td><img width="50" height="50" src="http://172.16.17.48:3000/upload/{{$value['phoneImg']}}" alt="">
+                </td>
+                <td>{{$value['phoneName']}}</td>
+                <td>{{$value['desc']}}</td>
+                <td>{{$value['phoneCpu']}}</td>
+                <td>{{$value['phonePhoto']}}</td>
+                <td>{{$value['searchValue']}}</td>
+                <td>{{$value['price']}}</td>
+                <td>{{$value['comments_total']}}</td>
+                <td>{{$value['createTime']}}</td>
+                <td>
+                    <button class="btn btn-sm btn-primary btn-update"><span class="fa fa-edit"></span>
+                        修改</button>
+                    <button class="btn btn-sm btn-danger btn-delete"><span class="fa fa-remove"></span> 删除</button>
+                </td>
+            </tr>
+            {{/each}}
+            {{else}}
+            <tr>
+                <td colspan="8"> 敬请期待 </td>
+            </tr>
+            {{/if}}
+        </table>
+    </div>
 
-  {{if total > 0}}
-  <div class="box-footer clearfix">
-    <ul class="pagination pagination-sm no-margin pull-right">
-      <li><a href="{{url}}?page={{page > 0 ? (page-1) : 0}}&pagesize={{pagesize}}&keywords={{keyword}}">&laquo;</a></li>
-      {{each pagecount}}
-      <li class="{{if $index === page}} active {{/if}}">
-        <a href="{{url}}?page={{$index}}&pagesize={{pagesize}}&keywords={{keywords}}">{{$value}}</a>
-      </li>
-      {{/each}}
-      <li><a href="{{url}}?page={{page < (pagecount.length-1) ? (page+1) : (pagecount.length-1)}}&pagesize={{pagesize}}&keywords={{keyword}}">&raquo;</a></li>
-    </ul>
-  </div>
-  {{/if}}
+    {{if total > 0}}
+    <div class="box-footer clearfix">
+        <ul class="pagination pagination-sm no-margin pull-right">
+            <li><a
+                    href="{{url}}?page={{page > 0 ? (page-1) : 0}}&pagesize={{pagesize}}&keywords={{keyword}}">&laquo;</a>
+            </li>
+            {{each pagecount}}
+            <li class="{{if $index === page}} active {{/if}}">
+                <a href="{{url}}?page={{$index}}&pagesize={{pagesize}}&keywords={{keywords}}">{{$value}}</a>
+            </li>
+            {{/each}}
+            <li><a
+                    href="{{url}}?page={{page < (pagecount.length-1) ? (page+1) : (pagecount.length-1)}}&pagesize={{pagesize}}&keywords={{keyword}}">&raquo;</a>
+            </li>
+        </ul>
+    </div>
+    {{/if}}
 </div>

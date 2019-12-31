@@ -5,7 +5,7 @@ const fs = require('fs')
 const path = require('path')
 
 class UserController {
-    _hashPassword(password) {
+    _hashPassword (password) {
         return new Promise((resolve, reject) => {
             bcrypt.hash(password, 10, (err, hash) => {
                 resolve(hash)
@@ -13,7 +13,7 @@ class UserController {
         })
     }
 
-    _comparePassword(password, hash) {
+    _comparePassword (password, hash) {
         return new Promise((resolve, reject) => {
             bcrypt.compare(password, hash, (err, res) => {
                 resolve(res)
@@ -21,12 +21,12 @@ class UserController {
         })
     }
 
-    getToken(username){
-        let cert = fs.readFileSync(path.resolve(__dirname,'../key/rsa_private_key.pem'))
-        return jwt.sign({username},cert,{algorithm:'RS256'})
+    getToken (username) {
+        let cert = fs.readFileSync(path.resolve(__dirname, '../key/rsa_private_key.pem'))
+        return jwt.sign({ username }, cert, { algorithm: 'RS256' })
     }
 
-    async signup(req, res, next) {
+    async signup (req, res, next) {
         res.set('Content-Type', 'application/json; charset=utf-8');
         let user = await userModel.select(req.body)
         if (user) {
@@ -55,7 +55,7 @@ class UserController {
         }
     }
 
-    async signin(req, res, next) {
+    async signin (req, res, next) {
         res.set('Content-Type', 'application/json; charset=utf-8');
         let result = await userModel.select(req.body)
         if (result) {
@@ -64,7 +64,7 @@ class UserController {
                 // req.session.username = result['username']
 
                 //插入token的方式
-                res.header('X-Access-Token',userController.getToken(result.username))
+                res.header('X-Access-Token', userController.getToken(result.username))
                 res.render('success', {
                     data: JSON.stringify({
                         username: result['username'],

@@ -19,31 +19,31 @@ export const render = async (req, res, next) => {
             headers: {
                 'X-Access-Token': localStorage.getItem('token')
             },
-            data:{
+            data: {
                 page,
                 pagesize,
                 keywords
             },
-            success(result) {
-               let list = template.render(positionTpl,{
-                   //返回的数据
-                   data:result.data.result,
-                   //没有数据长度时，显示数据为空提示
-                   hasResult: result.data.result.length > 0,
-                   //翻页的路径
-                   url: location.hash.split('?')[0],
-                   //最后一页的删除处理
-                   total: result.data.total,
-                   page: ~~page,
-                   pagesize,
-                   //搜索的关键字
-                   keywords,
-                   pagecount: _.range(1,Math.ceil(result.data.total / ~~pagesize) + 1)
-               })
-               res.render(list)
+            success (result) {
+                let list = template.render(positionTpl, {
+                    //返回的数据
+                    data: result.data.result,
+                    //没有数据长度时，显示数据为空提示
+                    hasResult: result.data.result.length > 0,
+                    //翻页的路径
+                    url: location.hash.split('?')[0],
+                    //最后一页的删除处理
+                    total: result.data.total,
+                    page: ~~page,
+                    pagesize,
+                    //搜索的关键字
+                    keywords,
+                    pagecount: _.range(1, Math.ceil(result.data.total / ~~pagesize) + 1)
+                })
+                res.render(list)
             }
         })
-        bindPositionListEvent(req,res)
+        bindPositionListEvent(req, res)
     } else {
         res.go('/')
     }
@@ -61,7 +61,7 @@ export const update = (req, res, next) => {
         headers: {
             'X-Access-Token': localStorage.getItem('token')
         },
-        success(result) {
+        success (result) {
             if (result) {
                 res.render(positionUpdataTpl({
                     ...result.data
@@ -71,10 +71,10 @@ export const update = (req, res, next) => {
             }
         }
     })
-    bindPositionUpdateEvent(req,res)
+    bindPositionUpdateEvent(req, res)
 }
 
-function bindPositionListEvent(req,res) {
+function bindPositionListEvent (req, res) {
     $('#router-view').off('click', '#addbtn').on('click', '#addbtn', (e) => {
         res.go('/position_add')
     })
@@ -88,11 +88,11 @@ function bindPositionListEvent(req,res) {
             headers: {
                 'X-Access-Token': localStorage.getItem('token')
             },
-            success:(result)=> {
-                let { page = 0, pagesize = 10, keywords = ''} = req.query || {}
+            success: (result) => {
+                let { page = 0, pagesize = 10, keywords = '' } = req.query || {}
                 let total = ~~$(this).closest('tr').attr('data-total')
-               
-                page = (page * pagesize === total -1) && (page > 0) ? page - 1 : page
+
+                page = (page * pagesize === total - 1) && (page > 0) ? page - 1 : page
                 // console.log(page,pagesize,total)
                 if (result.ret) {
                     res.go('/position/' + randomstring.generate(7) + `?page=${page}&pagesize=${pagesize}&keywords=${keywords || ''}`)
@@ -105,12 +105,12 @@ function bindPositionListEvent(req,res) {
     $('#router-view').off('click', '.btn-update').on('click', '.btn-update', function (e) {
         res.go('/position_update/' + $(this).closest('tr').attr('data-id'))
     })
-    $('#router-view').off('click', '#possearch').on('click', '#possearch', function(e){
+    $('#router-view').off('click', '#possearch').on('click', '#possearch', function (e) {
         res.go('/position/1/' + `?keywords=${$('#keywords').val()}`)
     })
 }
 
-function bindPositionAddEvent(res) {
+function bindPositionAddEvent (res) {
     $('#posback').off('click').on('click', (e) => {
         res.back()
     })
@@ -121,7 +121,7 @@ function bindPositionAddEvent(res) {
             headers: {
                 'X-Access-Token': localStorage.getItem('token')
             },
-            success(result) {
+            success (result) {
                 if (result) {
                     res.back()
                 } else {
@@ -132,18 +132,18 @@ function bindPositionAddEvent(res) {
     })
 }
 
-function bindPositionUpdateEvent(req, res) {
-    $('#router-view').off('click','#posback').on('click','#posback', (e) => {
+function bindPositionUpdateEvent (req, res) {
+    $('#router-view').off('click', '#posback').on('click', '#posback', (e) => {
         res.back()
     })
 
-    $('#router-view').off('click','#possubmit').on('click','#possubmit', (e) => {
+    $('#router-view').off('click', '#possubmit').on('click', '#possubmit', (e) => {
         $('#posupdate').ajaxSubmit({
             resetForm: true,
             headers: {
                 'X-Access-Token': localStorage.getItem('token')
             },
-            success(result) {
+            success (result) {
                 if (result.ret) {
                     res.back()
                 } else {
